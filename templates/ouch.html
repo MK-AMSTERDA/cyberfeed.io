@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invalid Request | Cyberfeed.io</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/app/static/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/app/static/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/app/static/favicon-16x16.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="title" content="Invalid Request| Cyberfeed.io" />
+    <style>
+      body {
+        font-family: "Inter", serif;
+      }
+    </style>
+  </head>
+
+  <script
+    data-goatcounter="https://cyberfeed.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
+
+  <body class="bg-gray-100">
+    <div class="container max-w-screen-md mx-auto px-5">
+      <div align="center">
+        <h1
+          class="pt-4 mb-4 text-4xl font-black tracking-tight leading-none text-cyan-500"
+        >
+          <a href="/">Cyberfeed.io</a>
+        </h1>
+        <p>
+          <span
+            class="text-lg font-extrabold underline decoration-4 decoration-cyan-500"
+            >🗞️ Daily Cybersecurity News</span
+          >
+        </p>
+        <p>
+          <a
+            href="/feed"
+            class="text-lg font-extrabold underline decoration-4 decoration-orange-500"
+            target="_blank"
+            >📨 Add us to your RSS feed!</a
+          >
+        </p>
+
+        <div
+          class="mb-4 text-lg font-extrabold underline decoration-4 decoration-slate-500"
+        >
+          🗓️
+          <script>
+            const currentDate = new Date();
+            const options = {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            };
+            document.write(currentDate.toLocaleDateString("en-US", options));
+          </script>
+        </div>
+
+        <div align="center">
+          <h1
+            class="pt-4 text-lg font-extrabold tracking-tight leading-none text-red-500 md:text-lg lg:text-lg dark:text-red-500"
+          >
+            Error: That page doesn't seem to exist or we may be having issues
+            with our servers.
+            <a href="/"><p>⏪ Click here to go back to the homepage.</p></a>
+          </h1>
+        </div>
+      </div>
+
+      <div class="my-3 flex flex-row justify-center items-center">
+        <a href="https://twitter.com/cyberfeedio" target="_blank">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/512/124/124021.png"
+            alt="Twitter"
+        /></a>
+        <a href="https://www.linkedin.com/in/ac-katz/" target="_blank">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+            alt="LinkedIn"
+        /></a>
+        <a href="/feed" target="_blank">
+          <img
+            class="rounded-full border-2 border-black-200"
+            height="40"
+            width="40"
+            src="/app/static/Generic_Feed-icon.svg"
+            alt="RSS"
+        /></a>
+      </div>
+    </div>
+
+    <div align="center">
+      <p>
+        Copyright © 2022-2023
+        <a href="https://akatz.org" target="_blank">Andrew Katz</a>
+      </p>
+    </div>
+  </body>
+</html>

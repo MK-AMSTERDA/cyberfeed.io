@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cyberfeed.io | Daily Cybersecurity News and Insights</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/app/static/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/app/static/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/app/static/favicon-16x16.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="title" content="Cyberfeed.io | Daily Cybersecurity News" />
+    <meta
+      name="description"
+      content="AI-powered daily cybersecurity news and insights aggregation. Keep your feed up-to-date with the highest quality insights."
+    />
+    <meta
+      property="og:image"
+      content="https://cyberfeed.io/app/static/jal.png"
+    />
+    <meta
+      name="twitter:image"
+      content="https://cyberfeed.io/app/static/jal.png"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@cyberfeedio" />
+    <meta
+      name="twitter:title"
+      content="Cyberfeed.io | Daily Cybersecurity News and Insights"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <script
+      data-goatcounter="https://cyberfeed.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+
+    <div class="container max-w-screen-md mx-auto px-5">
+      <div align="center">
+        <h1
+          class="pt-4 mb-4 text-4xl font-black tracking-tight leading-none text-cyan-500"
+        >
+          <a href="/">Cyberfeed.io</a>
+        </h1>
+
+        <p>
+          <span
+            class="text-lg font-extrabold underline decoration-4 decoration-cyan-500"
+            >🗞️ Daily Cybersecurity News</span
+          >
+        </p>
+        <p>
+          <a
+            href="/feed"
+            class="text-lg font-extrabold underline decoration-4 decoration-orange-500"
+            target="_blank"
+            >📨 Add us to your RSS feed!</a
+          >
+        </p>
+
+        <div
+          class="mb-4 text-lg font-extrabold underline decoration-4 decoration-slate-500"
+        >
+          🗓️
+          <script>
+            const currentDate = new Date();
+            const options = {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            };
+            document.write(currentDate.toLocaleDateString("en-US", options));
+          </script>
+        </div>
+
+        <div class="mb-4 font-extrabold">
+          <span class="text-lg underline decoration-4 decoration-red-500"
+            >📈 Trending</span
+          >
+          <span class="text-sm">
+            {% for article in top %}
+            <div class="mt-1 flex flex-row justify-center items-center">
+              <a href="{{ article['cf_url']}}" target="_blank">
+                📰 {{ article['article_title']}}
+                <i>({{ article['score'] }} votes)</i>
+              </a>
+              <a href="{{ article['mastodon_uri']}}" target="_blank">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Mastodon_Logotype_%28Simple%29.svg/1200px-Mastodon_Logotype_%28Simple%29.svg.png"
+                  height="15"
+                  width="15"
+                  class="ml-1"
+                />
+              </a>
+            </div>
+            {% endfor %}
+          </span>
+        </div>
+
+        <p>
+          {% for stock in stocks %} {% if stock['status'] == 'red' %}
+          <a
+            href="https://finance.yahoo.com/quote/{{ stock['ticker'] }}"
+            target="_blank"
+          >
+            <span
+              class="bg-red-500 text-red-100 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-500 dark:text-red-100"
+            >
+              <img
+                src="/app/static/trend_down.svg"
+                class="mr-1 w-4 h-4"
+                viewBox="0 0 20 20"
+              />
+              {{ stock['ticker'] }} {{ stock['percentage'] }}%
+            </span>
+          </a>
+          {% elif stock['status'] == 'green' %}
+          <a
+            href="https://finance.yahoo.com/quote/{{ stock['ticker'] }}"
+            target="_blank"
+          >
+            <span
+              class="bg-green-500 text-green-100 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-500 dark:text-green-100"
+            >
+              <img
+                src="/app/static/trend_up.svg"
+                class="mr-1 w-4 h-4"
+                viewBox="0 0 20 20"
+              />
+              {{ stock['ticker'] }} {{ stock['percentage'] }}%
+            </span>
+          </a>
+          {% else %}
+          <a
+            href="https://finance.yahoo.com/quote/{{ stock['ticker'] }}"
+            target="_blank"
+          >
+            <span
+              class="bg-gray-500 text-gray-100 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-500 dark:text-gray-100"
+            >
+              {{ stock['ticker'] }} {{ stock['percentage'] }}%
+            </span>
+          </a>
+          {% endif %} {% endfor %}
+        </p>
+      </div>
+
+      {% for article in news %}
+
+      <a
+        href="{{ article['article_link'] }}"
+        target="_blank"
+        class="mt-4 flex flex-col items-center bg-slate-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-3xl hover:bg-gray-100"
+      >
+        {% if "https://" not in article['article_image'] %}
+        <img
+          class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+          src="/app/static/default_news.png"
+          alt=""
+        />
+        {% else %}
+        <img
+          class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+          src="{{ article['article_image'] }}"
+          alt=""
+        />
+        {% endif %}
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+            {{ article['article_title'] }}
+          </h5>
+          <div class="text-sm mb-3">
+            {{ article['article_date_published'] }} UTC
+          </div>
+          <p class="mb-3 font-normal text-gray-700">
+            {{ article['article_shortdesc'] }}
+          </p>
+        </div>
+      </a>
+
+      {% endfor %}
+
+      <p align="center">
+        <a href="/"
+          ><img
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/128/6916/6916832.png"
+        /></a>
+      </p>
+
+      <div align="center">
+        <div class="my-3 flex flex-row justify-center items-center">
+          <a href="https://twitter.com/cyberfeedio" target="_blank">
+            <img
+              class="rounded-full border-2 border-black-200"
+              width="40"
+              height="40"
+              src="https://cdn-icons-png.flaticon.com/512/124/124021.png"
+              alt="Twitter"
+          /></a>
+          <a href="https://www.linkedin.com/in/ac-katz/" target="_blank">
+            <img
+              class="rounded-full border-2 border-black-200"
+              width="40"
+              height="40"
+              src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+              alt="LinkedIn"
+          /></a>
+          <a href="/feed" target="_blank">
+            <img
+              class="rounded-full border-2 border-black-200"
+              height="40"
+              width="40"
+              src="/app/static/Generic_Feed-icon.svg"
+              alt="RSS"
+          /></a>
+        </div>
+        <p>
+          Copyright © 2022-2023
+          <a href="https://akatz.org" target="_blank">Andrew Katz</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

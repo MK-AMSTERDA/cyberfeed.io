@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ article_title }} | Cyberfeed.io</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/app/static/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/app/static/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/app/static/favicon-16x16.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="title"
+      property="og:title"
+      content="{{ article_title }} | Cyberfeed.io"
+    />
+    <meta name="description" content="{{ article_shortdesc }}" />
+    {% if "https://" not in article_image %}
+    <meta
+      property="og:image"
+      content="https://cyberfeed.io/app/static/default_news.png"
+    />
+    <meta
+      name="twitter:image"
+      content="https://cyberfeed.io/app/static/default_news.png"
+    />
+    {% else %}
+    <meta property="og:image" content="{{ article_image }}" />
+    <meta name="twitter:image" content="{{ article_image }}" />
+    {% endif %}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@cyberfeedio" />
+    <meta name="twitter:title" content="{{ article_title }}" />
+
+    <style>
+      body {
+        font-family: "Inter", serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <script
+      data-goatcounter="https://cyberfeed.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+
+    <div class="container max-w-screen-md mx-auto px-5">
+      <div align="center">
+        <h1
+          class="pt-4 mb-4 text-4xl font-black tracking-tight leading-none text-cyan-500"
+        >
+          <a href="/">Cyberfeed.io</a>
+        </h1>
+        <p>
+          <span
+            class="text-lg font-extrabold underline decoration-4 decoration-cyan-500"
+            >🗞️ Daily Cybersecurity News</span
+          >
+        </p>
+        <p>
+          <a
+            href="/feed"
+            class="text-lg font-extrabold underline decoration-4 decoration-orange-500"
+            target="_blank"
+            >📨 Add us to your RSS feed!</a
+          >
+        </p>
+
+        <div
+          class="mb-4 text-lg font-extrabold underline decoration-4 decoration-slate-500"
+        >
+          🗓️
+          <script>
+            const currentDate = new Date();
+            const options = {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            };
+            document.write(currentDate.toLocaleDateString("en-US", options));
+          </script>
+        </div>
+
+        <p>
+          {% for stock in stocks %} {% if stock['status'] == 'red' %}
+
+          <a
+            href="https://finance.yahoo.com/quote/{{ stock['ticker'] }}"
+            target="_blank"
+          >
+            <span
+              class="bg-red-500 text-red-100 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-500 dark:text-red-100"
+            >
+              <img
+                src="/app/static/trend_down.svg"
+                class="mr-1 w-4 h-4"
+                viewBox="0 0 20 20"
+              />
+              {{ stock['ticker'] }} {{ stock['percentage'] }}%
+            </span>
+          </a>
+
+          {% elif stock['status'] == 'green' %}
+
+          <a
+            href="https://finance.yahoo.com/quote/{{ stock['ticker'] }}"
+            target="_blank"
+          >
+            <span
+              class="bg-green-500 text-green-100 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-500 dark:text-green-100"
+            >
+              <img
+                src="/app/static/trend_up.svg"
+                class="mr-1 w-4 h-4"
+                viewBox="0 0 20 20"
+              />
+              {{ stock['ticker'] }} {{ stock['percentage'] }}%
+            </span>
+          </a>
+
+          {% else %}
+
+          <a
+            href="https://finance.yahoo.com/quote/{{ stock['ticker'] }}"
+            target="_blank"
+          >
+            <span
+              class="bg-gray-500 text-gray-100 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-500 dark:text-gray-100"
+            >
+              {{ stock['ticker'] }} {{ stock['percentage'] }}%
+            </span>
+          </a>
+          {% endif %} {% endfor %}
+        </p>
+      </div>
+
+      {% if 'https://news.ycombinator.com' in article_hnlink %}
+
+      <div
+        class="my-3 mx-auto max-w-lg bg-slate-50 rounded-lg border dark:border-slate-200"
+      >
+        <a href="{{ article_link }}">
+          {% if "https://" not in article_image %}
+          <img class="rounded-t-lg" src="/app/static/default_news.png" />
+          {% else %}
+          <img class="rounded-t-lg" src="{{ article_image }}" />
+          {% endif %}
+        </a>
+
+        <div class="p-5">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Y_Combinator_logo.svg/640px-Y_Combinator_logo.svg.png"
+          />
+          <a href="{{ article_link }}">
+            <span
+              class="text-xl font-bold tracking-tight text-slate-900 dark:text-black"
+              >{{ article_title }}</span
+            >
+          </a>
+
+          <div class="text-sm mb-3">{{ article_date_published }} UTC</div>
+
+          {% if "None" in article_hnlink %}
+
+          <p class="mb-3 font-normal text-slate-800 dark:text-slate-800">
+            {{ article_shortdesc }}
+          </p>
+
+          {% elif "https://news.ycombinator.com" not in article_link %}
+
+          <p class="mb-3 font-normal text-slate-800 dark:text-slate-800">
+            {{ article_shortdesc }}
+          </p>
+
+          <p class="mb-3 font-normal text-slate-800 dark:text-slate-800">
+            <a
+              class="font-extrabold underline decoration-orange-500"
+              href="{{ article_hnlink }}"
+              target="_blank"
+              >Open HN Comments</a
+            >
+          </p>
+
+          {% else %}
+
+          <p class="mb-3 font-normal text-slate-800 dark:text-slate-800">
+            {{ article_shortdesc }}
+          </p>
+
+          {% endif %}
+
+          <a
+            href="{{ article_link }}"
+            target="_blank"
+            class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-cyan-500 rounded-lg hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+          >
+            Read More
+            <img
+              src="/app/static/external_link.svg"
+              class="ml-1 -mr-1 w-4 h-4"
+              viewBox="0 0 20 20"
+            />
+          </a>
+        </div>
+      </div>
+
+      {% elif 'https://infosec-jobs.com' in article_link %}
+
+      <div
+        class="my-3 mx-auto max-w-lg bg-slate-50 rounded-lg border dark:border-slate-200"
+      >
+        <a href="{{ article_link }}">
+          {% if "https://" not in article_image %}
+          <img class="rounded-t-lg" src="/app/static/default_news.png" />
+          {% else %}
+          <img class="rounded-t-lg" src="{{ article_image }}" />
+          {% endif %}
+        </a>
+
+        <div class="p-5">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/512/3850/3850285.png"
+          />
+          <a href="{{ article_link }}">
+            <span
+              class="text-xl font-bold tracking-tight text-slate-900 dark:text-black"
+              >{{ article_title }}</span
+            >
+          </a>
+
+          <div class="text-sm">{{ article_date_published }} UTC</div>
+
+          <p class="mb-3 font-normal text-slate-800 dark:text-slate-800">
+            {{ article_shortdesc }}
+          </p>
+
+          <a
+            href="{{ article_link }}"
+            target="_blank"
+            class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-cyan-500 rounded-lg hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+          >
+            Read More
+            <img
+              src="/app/static/external_link.svg"
+              class="ml-1 -mr-1 w-4 h-4"
+              viewBox="0 0 20 20"
+            />
+          </a>
+        </div>
+      </div>
+
+      {% else %}
+
+      <div
+        class="my-3 mx-auto max-w-lg bg-slate-50 rounded-lg border dark:border-slate-200"
+      >
+        <a href="{{ article_link }}">
+          {% if "https://" not in article_image %}
+          <img class="rounded-t-lg" src="/app/static/default_news.png" />
+          {% else %}
+          <img class="rounded-t-lg" src="{{ article_image }}" />
+          {% endif %}
+        </a>
+
+        <div class="p-5">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/512/2965/2965879.png"
+          />
+          <a href="{{ article_link }}">
+            <span
+              class="text-xl font-bold tracking-tight text-slate-900 dark:text-black"
+              >{{ article_title }}</span
+            >
+          </a>
+
+          <div class="text-sm">{{ article_date_published }} UTC</div>
+
+          <p class="mb-3 font-normal text-slate-800 dark:text-slate-800">
+            {{ article_shortdesc }}
+          </p>
+          <a
+            href="{{ article_link }}"
+            target="_blank"
+            class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-cyan-500 rounded-lg hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+          >
+            Read More
+            <img
+              src="/app/static/external_link.svg"
+              class="ml-1 -mr-1 w-4 h-4"
+              viewBox="0 0 20 20"
+            />
+          </a>
+        </div>
+      </div>
+
+      {% endif %}
+
+      <div class="my-3 flex flex-row justify-center items-center">
+        <a href="https://twitter.com/cyberfeedio" target="_blank">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/512/124/124021.png"
+            alt="Twitter"
+        /></a>
+        <a href="https://www.linkedin.com/in/ac-katz/" target="_blank">
+          <img
+            class="rounded-full border-2 border-black-200"
+            width="40"
+            height="40"
+            src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+            alt="LinkedIn"
+        /></a>
+        <a href="/feed" target="_blank">
+          <img
+            class="rounded-full border-2 border-black-200"
+            height="40"
+            width="40"
+            src="/app/static/Generic_Feed-icon.svg"
+            alt="RSS"
+        /></a>
+      </div>
+
+      <div align="center">
+        <p>
+          Copyright © 2022-2023
+          <a href="https://akatz.org" target="_blank">Andrew Katz</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
